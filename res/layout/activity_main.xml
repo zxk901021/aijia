@@ -1,0 +1,51 @@
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    xmlns:app="http://schemas.android.com/apk/res/com.zhxk.aijia"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent" >
+
+    <android.support.v4.view.ViewPager
+        android:id="@+id/guide_pager"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent" >
+    </android.support.v4.view.ViewPager>
+
+    <Button
+        android:id="@+id/guide_skip"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentEnd="true"
+        android:layout_alignParentRight="true"
+        android:layout_alignParentTop="true"
+        android:layout_margin="15dp"
+        android:background="@drawable/skip_btn"
+        android:text="跳过"
+        android:textColor="#ffffff" />
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:orientation="vertical"
+        android:paddingBottom="50dp" >
+
+        <com.zhxk.aijia.view.CircleIndicator
+            android:id="@+id/guide_indicator"
+            android:layout_width="match_parent"
+            android:layout_height="40dp" >
+        </com.zhxk.aijia.view.CircleIndicator>
+
+        <Button
+            android:id="@+id/guide_start"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_horizontal"
+            android:background="@drawable/guide_btn"
+            android:text="开始体验  &lt;"
+            android:textColor="#000000"
+            android:textSize="18sp"
+            android:visibility="invisible"
+            android:clickable="false" />
+    </LinearLayout>
+
+</RelativeLayout>
