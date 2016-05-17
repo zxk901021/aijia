@@ -120,7 +120,7 @@ containing a value of this type.
         public static final int white_radius=0x7f020006;
     }
     public static final class id {
-        public static final int action_settings=0x7f090015;
+        public static final int action_settings=0x7f090016;
         public static final int bottom=0x7f090002;
         public static final int center=0x7f090003;
         public static final int center_horizontal=0x7f090004;
@@ -138,6 +138,7 @@ containing a value of this type.
         public static final int horizontal=0x7f090000;
         public static final int left=0x7f09000c;
         public static final int mall_web=0x7f090014;
+        public static final int net_setting=0x7f090015;
         public static final int right=0x7f09000d;
         public static final int start=0x7f09000e;
         public static final int top=0x7f09000f;
