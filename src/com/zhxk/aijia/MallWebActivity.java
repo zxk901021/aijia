@@ -11,13 +11,17 @@ import android.graphics.Bitmap;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
+import android.view.KeyEvent;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.View.OnClickListener;
+import android.webkit.WebChromeClient;
+import android.webkit.WebSettings;
 import android.webkit.WebView;
 import android.webkit.WebViewClient;
 import android.widget.Button;
+import android.widget.ProgressBar;
 import android.widget.Toast;
 
 public class MallWebActivity extends Activity implements OnClickListener{
@@ -27,6 +31,8 @@ public class MallWebActivity extends Activity implements OnClickListener{
 	public static final int TIME_OUT_FLAG = 1;
 	private Timer timer;
 	private Button netSetting;
+	private ProgressBar bar;
+	private WebChromeClient client;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -51,6 +57,24 @@ public class MallWebActivity extends Activity implements OnClickListener{
 	private void initView(){
 		mallWeb = (WebView) findViewById(R.id.mall_web);
 		netSetting = (Button) findViewById(R.id.net_setting);
+		bar = (ProgressBar) findViewById(R.id.progress);
+		client = new WebChromeClient() {
+			@Override
+			public void onProgressChanged(WebView view, int newProgress) {
+
+				super.onProgressChanged(view, newProgress);
+				if (view.getUrl() != null)
+					if (newProgress < 100) {
+						bar.setVisibility(View.VISIBLE);
+						bar.setProgress(newProgress);
+					} else {
+						bar.setVisibility(View.GONE);
+					}
+			}
+		};
+		mallWeb.setWebChromeClient(client);
+		WebSettings settings = mallWeb.getSettings();
+		settings.setJavaScriptEnabled(true);
 		mallWeb.setWebViewClient(new WebViewClient(){
 			
 			
@@ -80,22 +104,44 @@ public class MallWebActivity extends Activity implements OnClickListener{
 				return false;
 			}
 		});
+		checkNet();
+	}
+
+	private void checkNet(){
 		if (NetStatusUtil.isNetworkConnected(this)) {
-			mallWeb.loadUrl("http://ajhm315.com/");
+			mallWeb.setVisibility(View.VISIBLE);
+			mallWeb.loadUrl("http://ajhm315.com/wap");
 			netSetting.setVisibility(View.GONE);
 		}else {
+			Toast.makeText(MallWebActivity.this, "Çë¼ì²éÄúµÄÍøÂç", Toast.LENGTH_SHORT).show();
 			mallWeb.setVisibility(View.GONE);
 			netSetting.setVisibility(View.VISIBLE);
 			netSetting.setOnClickListener(this);
 		}
-		mallWeb.loadUrl("http://ajhm315.com/");
 	}
-
+	
+	@Override
+	protected void onRestart() {
+		super.onRestart();
+		checkNet();
+	}
+	
 	@Override
 	public boolean onCreateOptionsMenu(Menu menu) {
 		// Inflate the menu; this adds items to the action bar if it is present.
 		getMenuInflater().inflate(R.menu.mall_web, menu);
 		return true;
+	}
+	
+	@Override
+	public boolean onKeyDown(int keyCode, KeyEvent event) {
+		if (KeyEvent.ACTION_DOWN == event.getAction()
+				&& keyCode == KeyEvent.KEYCODE_BACK && mallWeb.canGoBack()) {
+			mallWeb.goBack();
+			return true;
+		}
+
+		return super.onKeyDown(keyCode, event);
 	}
 
 	@Override
